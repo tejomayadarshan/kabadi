@@ -138,6 +138,188 @@
             50% { transform: rotateY(1800deg) scale(1.2); }
             100% { transform: rotateY(3600deg); }
         }
+
+        .animate-fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .animate-fade-in-delay {
+            animation: fadeIn 1s ease-in-out 0.3s both;
+        }
+
+        .animate-fade-in-delay-2 {
+            animation: fadeIn 1s ease-in-out 0.6s both;
+        }
+
+        .animate-slide-down {
+            animation: slideDown 0.8s ease-out;
+        }
+
+        .animate-slide-up {
+            animation: slideUp 0.8s ease-out 0.2s both;
+        }
+
+        .animate-slide-left {
+            animation: slideLeft 1s ease-out 0.4s both;
+        }
+
+        .animate-slide-right {
+            animation: slideRight 1s ease-out 0.4s both;
+        }
+
+        .animate-pulse-glow {
+            animation: pulseGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes slideDown {
+            0% { 
+                opacity: 0; 
+                transform: translateY(-50px); 
+            }
+            100% { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        @keyframes slideUp {
+            0% { 
+                opacity: 0; 
+                transform: translateY(50px); 
+            }
+            100% { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        @keyframes slideLeft {
+            0% { 
+                opacity: 0; 
+                transform: translateX(-100px); 
+            }
+            100% { 
+                opacity: 1; 
+                transform: translateX(0); 
+            }
+        }
+
+        @keyframes slideRight {
+            0% { 
+                opacity: 0; 
+                transform: translateX(100px); 
+            }
+            100% { 
+                opacity: 1; 
+                transform: translateX(0); 
+            }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { 
+                box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 0 40px rgba(168, 85, 247, 0.8);
+                transform: scale(1.02);
+            }
+        }
+
+        .player-card {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .player-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+        }
+
+        .player-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .player-card:hover::before {
+            left: 100%;
+        }
+
+        .captain-badge {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            animation: captainGlow 2s ease-in-out infinite;
+            position: relative;
+            z-index: 10;
+        }
+
+        @keyframes captainGlow {
+            0%, 100% { 
+                box-shadow: 0 0 15px rgba(251, 191, 36, 0.6);
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 0 25px rgba(251, 191, 36, 0.9);
+                transform: scale(1.05);
+            }
+        }
+
+        .player-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            margin: 0 auto 12px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .player-card:hover .player-avatar {
+            transform: rotate(360deg) scale(1.1);
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+
+        .substitute-avatar {
+            width: 40px;
+            height: 40px;
+            font-size: 16px;
+        }
+
+        .toss-popup-enter {
+            animation: tossPopupEnter 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes tossPopupEnter {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0) rotate(-180deg);
+            }
+            60% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.1) rotate(10deg);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1) rotate(0deg);
+            }
+        }
     </style>
 </head>
 <body class="bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 min-h-screen roboto">
@@ -250,49 +432,74 @@
                 <p class="text-blue-200">Configure teams, conduct toss, and set player lineups</p>
             </div>
 
-            <!-- Toss Section -->
+            <!-- Manual Toss Entry Section -->
             <div class="bg-white/10 backdrop-blur-lg rounded-3xl p-8 mb-8 border border-white/20">
-                <h2 class="text-2xl font-bold text-yellow-400 orbitron mb-6 text-center">🪙 TOSS</h2>
+                <h2 class="text-2xl font-bold text-yellow-400 orbitron mb-6 text-center">🪙 TOSS ENTRY</h2>
                 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
-                    <div class="text-center">
-                        <div class="text-lg font-bold text-red-400 mb-2" id="tossTeamA">TEAM A</div>
-                        <button onclick="selectTossChoice('A', 'court')" id="teamACourtBtn" 
-                                class="w-full mb-2 px-4 py-2 rounded-lg bg-red-500/30 border border-red-400 text-red-300 font-bold hover:bg-red-500/50 transition-all">
-                            CHOOSE COURT
-                        </button>
-                        <button onclick="selectTossChoice('A', 'raid')" id="teamARaidBtn" 
-                                class="w-full px-4 py-2 rounded-lg bg-red-500/30 border border-red-400 text-red-300 font-bold hover:bg-red-500/50 transition-all">
-                            CHOOSE TO RAID FIRST
-                        </button>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Toss Winner Selection -->
+                    <div class="bg-white/5 rounded-2xl p-6 border border-white/10">
+                        <h3 class="text-lg font-bold text-white mb-4">1. Select Toss Winner</h3>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button onclick="setTossWinner('A')" id="tossWinnerABtn" 
+                                    class="px-4 py-3 rounded-lg bg-red-500/30 border border-red-400 text-red-300 font-bold hover:bg-red-500/50 transition-all">
+                                <span id="tossWinnerAText">TEAM A</span>
+                            </button>
+                            <button onclick="setTossWinner('B')" id="tossWinnerBBtn" 
+                                    class="px-4 py-3 rounded-lg bg-blue-500/30 border border-blue-400 text-blue-300 font-bold hover:bg-blue-500/50 transition-all">
+                                <span id="tossWinnerBText">TEAM B</span>
+                            </button>
+                        </div>
+                        <div id="tossWinnerDisplay" class="mt-3 text-center text-green-400 font-bold hidden">
+                            Winner Selected: <span id="selectedWinner"></span>
+                        </div>
                     </div>
                     
-                    <div class="text-center">
-                        <div class="text-6xl mb-4" id="coinDisplay">🪙</div>
-                        <button onclick="flipCoin()" id="flipCoinBtn" 
-                                class="bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-black font-bold py-4 px-8 rounded-xl transition-all transform hover:scale-105 text-lg">
-                            FLIP COIN
-                        </button>
-                        <div id="tossResult" class="mt-4 text-2xl font-bold text-yellow-400"></div>
-                        <div id="tossWinner" class="mt-2 text-lg text-green-400"></div>
-                    </div>
-                    
-                    <div class="text-center">
-                        <div class="text-lg font-bold text-blue-400 mb-2" id="tossTeamB">TEAM B</div>
-                        <button onclick="selectTossChoice('B', 'court')" id="teamBCourtBtn" 
-                                class="w-full mb-2 px-4 py-2 rounded-lg bg-blue-500/30 border border-blue-400 text-blue-300 font-bold hover:bg-blue-500/50 transition-all">
-                            CHOOSE COURT
-                        </button>
-                        <button onclick="selectTossChoice('B', 'raid')" id="teamBRaidBtn" 
-                                class="w-full px-4 py-2 rounded-lg bg-blue-500/30 border border-blue-400 text-blue-300 font-bold hover:bg-blue-500/50 transition-all">
-                            CHOOSE TO RAID FIRST
-                        </button>
+                    <!-- Toss Choice Selection -->
+                    <div class="bg-white/5 rounded-2xl p-6 border border-white/10">
+                        <h3 class="text-lg font-bold text-white mb-4">2. Select Winner's Choice</h3>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button onclick="setTossChoice('court')" id="tossChoiceCourtBtn" 
+                                    class="px-4 py-3 rounded-lg bg-purple-500/30 border border-purple-400 text-purple-300 font-bold hover:bg-purple-500/50 transition-all disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                                CHOOSE COURT
+                            </button>
+                            <button onclick="setTossChoice('raid')" id="tossChoiceRaidBtn" 
+                                    class="px-4 py-3 rounded-lg bg-orange-500/30 border border-orange-400 text-orange-300 font-bold hover:bg-orange-500/50 transition-all disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                                RAID FIRST
+                            </button>
+                        </div>
+                        <div id="tossChoiceDisplay" class="mt-3 text-center text-yellow-400 font-bold hidden">
+                            Choice: <span id="selectedChoice"></span>
+                        </div>
                     </div>
                 </div>
                 
-                <div id="tossDecision" class="mt-6 p-4 bg-green-500/20 border border-green-400 rounded-lg text-center hidden">
-                    <div class="text-green-400 font-bold text-lg mb-2">TOSS COMPLETED</div>
-                    <div id="tossDecisionText" class="text-white"></div>
+                <!-- Toss Summary and Confirm -->
+                <div id="tossSummary" class="mt-6 p-4 bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-400 rounded-lg text-center hidden">
+                    <div class="text-green-400 font-bold text-lg mb-2">TOSS SUMMARY</div>
+                    <div id="tossSummaryText" class="text-white text-lg mb-4"></div>
+                    <button onclick="confirmToss()" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-xl transition-all transform hover:scale-105">
+                        CONFIRM & SHOW TO AUDIENCE
+                    </button>
+                </div>
+                
+                <div id="tossConfirmed" class="mt-6 p-4 bg-green-500/20 border border-green-400 rounded-lg text-center hidden">
+                    <div class="text-green-400 font-bold text-lg mb-2">✅ TOSS CONFIRMED</div>
+                    <div id="tossConfirmedText" class="text-white"></div>
+                    <button onclick="resetToss()" class="mt-3 bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg text-sm">
+                        RESET TOSS
+                    </button>
+                </div>
+            </div>
+
+            <!-- Animated Toss Results Popup -->
+            <div id="tossResultsPopup" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center">
+                <div class="bg-gradient-to-br from-yellow-400 via-orange-500 to-red-500 rounded-3xl p-12 border-4 border-yellow-300 text-center shadow-2xl transform scale-0 transition-all duration-500" id="tossPopupContent">
+                    <div class="text-8xl mb-6 animate-bounce">🏆</div>
+                    <div class="text-4xl font-black text-black orbitron mb-4" id="tossPopupTitle">TOSS WINNER!</div>
+                    <div class="text-3xl font-bold text-black mb-4" id="tossPopupWinner"></div>
+                    <div class="text-2xl font-bold text-black mb-6" id="tossPopupChoice"></div>
+                    <div class="text-lg text-black/80 font-medium">Match will begin shortly...</div>
                 </div>
             </div>
 
@@ -405,6 +612,9 @@
                         <div id="raidTimer" class="absolute inset-0 flex items-center justify-center text-4xl font-bold orbitron text-green-400">30</div>
                     </div>
                     <div class="mb-3">
+                        <button onclick="newRaid()" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-lg mb-3 text-sm">
+                            🆕 NEW RAID
+                        </button>
                         <div class="text-sm text-white mb-2 font-medium">Select Raiding Team:</div>
                         <div class="grid grid-cols-2 gap-2">
                             <button id="raidTeamABtn" onclick="selectRaidingTeam('A')" 
@@ -449,10 +659,20 @@
                     <div class="text-7xl font-black text-white orbitron glow" id="scoreAAdmin">0</div>
                 </div>
                 
+                <!-- Raid Points Section -->
+                <div class="mb-4">
+                    <h4 class="text-white font-bold text-sm mb-2 text-center">RAID POINTS</h4>
+                    <div class="grid grid-cols-6 gap-1 mb-3">
+                        <button onclick="addRaidPoints('A', 1)" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-2 rounded-lg text-xs transition-all">+1</button>
+                        <button onclick="addRaidPoints('A', 2)" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-2 rounded-lg text-xs transition-all">+2</button>
+                        <button onclick="addRaidPoints('A', 3)" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-2 rounded-lg text-xs transition-all">+3</button>
+                        <button onclick="addRaidPoints('A', 4)" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-2 rounded-lg text-xs transition-all">+4</button>
+                        <button onclick="addRaidPoints('A', 5)" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-2 rounded-lg text-xs transition-all">+5</button>
+                        <button onclick="addRaidPoints('A', 6)" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-2 rounded-lg text-xs transition-all">+6</button>
+                    </div>
+                </div>
+                
                 <div class="grid grid-cols-2 gap-3 mb-4">
-                    <button onclick="addPoint('A', 'raid')" class="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-4 rounded-xl transition-all transform hover:scale-105">
-                        RAID POINT<br><span class="text-sm">(+1)</span>
-                    </button>
                     <button onclick="addPoint('A', 'tackle')" class="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-4 rounded-xl transition-all transform hover:scale-105">
                         TACKLE POINT<br><span class="text-sm">(+1)</span>
                     </button>
@@ -478,10 +698,20 @@
                     <div class="text-7xl font-black text-white orbitron glow" id="scoreBAdmin">0</div>
                 </div>
                 
+                <!-- Raid Points Section -->
+                <div class="mb-4">
+                    <h4 class="text-white font-bold text-sm mb-2 text-center">RAID POINTS</h4>
+                    <div class="grid grid-cols-6 gap-1 mb-3">
+                        <button onclick="addRaidPoints('B', 1)" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-2 rounded-lg text-xs transition-all">+1</button>
+                        <button onclick="addRaidPoints('B', 2)" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-2 rounded-lg text-xs transition-all">+2</button>
+                        <button onclick="addRaidPoints('B', 3)" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-2 rounded-lg text-xs transition-all">+3</button>
+                        <button onclick="addRaidPoints('B', 4)" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-2 rounded-lg text-xs transition-all">+4</button>
+                        <button onclick="addRaidPoints('B', 5)" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-2 rounded-lg text-xs transition-all">+5</button>
+                        <button onclick="addRaidPoints('B', 6)" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-2 rounded-lg text-xs transition-all">+6</button>
+                    </div>
+                </div>
+                
                 <div class="grid grid-cols-2 gap-3 mb-4">
-                    <button onclick="addPoint('B', 'raid')" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-xl transition-all transform hover:scale-105">
-                        RAID POINT<br><span class="text-sm">(+1)</span>
-                    </button>
                     <button onclick="addPoint('B', 'tackle')" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-xl transition-all transform hover:scale-105">
                         TACKLE POINT<br><span class="text-sm">(+1)</span>
                     </button>
@@ -508,7 +738,7 @@
                 <div class="grid grid-cols-2 gap-3">
                     <button onclick="startSecondHalf()" id="secondHalfBtn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg text-sm">START 2ND HALF</button>
                     <button onclick="endMatch()" class="bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded-lg text-sm">END MATCH</button>
-                    <button onclick="newRaid()" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-lg text-sm">NEW RAID</button>
+
                     <button onclick="resetScores()" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg text-sm">RESET SCORES</button>
                 </div>
             </div>
@@ -545,146 +775,270 @@
     </div>
 
     <!-- Audience View (Default) -->
-    <div id="audienceView" class="min-h-screen bg-black flex items-center justify-center p-4">
-        <div class="w-full max-w-7xl">
+    <div id="audienceView" class="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+        <div class="w-full min-h-screen flex flex-col">
             <!-- Match Ended Screen -->
-            <div id="matchEndedScreen" class="hidden text-center">
-                <div class="animate-pulse mb-8">
-                    <h1 class="text-8xl font-black text-yellow-400 orbitron mb-4 animate-bounce">🏆 MATCH ENDED</h1>
-                    <div id="winnerAnnouncement" class="text-5xl font-bold text-white mb-6"></div>
-                    <div id="finalScoreDisplay" class="text-3xl text-gray-300 mb-8"></div>
-                </div>
-                <div class="text-4xl text-blue-400 font-bold animate-pulse">
-                    WAITING FOR NEXT MATCH...
+            <div id="matchEndedScreen" class="hidden min-h-screen flex items-center justify-center p-8">
+                <div class="text-center">
+                    <div class="animate-pulse mb-8">
+                        <h1 class="text-6xl md:text-8xl font-black text-yellow-400 orbitron mb-4 animate-bounce">🏆 MATCH ENDED</h1>
+                        <div id="winnerAnnouncement" class="text-3xl md:text-5xl font-bold text-white mb-6"></div>
+                        <div id="finalScoreDisplay" class="text-xl md:text-3xl text-gray-300 mb-8"></div>
+                    </div>
+                    <div class="text-2xl md:text-4xl text-blue-400 font-bold animate-pulse">
+                        WAITING FOR NEXT MATCH...
+                    </div>
                 </div>
             </div>
 
             <!-- Next Match Preview -->
-            <div id="nextMatchPreview" class="hidden text-center">
-                <div class="animate-pulse mb-8">
-                    <h1 class="text-6xl font-black text-green-400 orbitron mb-4">🔥 NEXT MATCH</h1>
-                    <div class="text-4xl text-white mb-6">
-                        <span id="nextTeamA" class="text-red-400"></span>
-                        <span class="text-gray-400 mx-4">VS</span>
-                        <span id="nextTeamB" class="text-blue-400"></span>
-                    </div>
-                </div>
-                <div class="text-3xl text-yellow-400 font-bold animate-bounce">
-                    WAITING FOR MATCH TO START...
-                </div>
-            </div>
-
-            <!-- Team Lineups Preview -->
-            <div id="teamLineupsPreview" class="hidden">
-                <div class="text-center mb-8">
-                    <h1 class="text-5xl font-black text-white orbitron mb-4">📋 TEAM LINEUPS</h1>
-                    <div class="text-2xl text-white mb-2">
-                        <span id="previewTeamA" class="text-red-400"></span>
-                        <span class="text-gray-400 mx-4">VS</span>
-                        <span id="previewTeamB" class="text-blue-400"></span>
-                    </div>
-                    <div id="previewReferee" class="text-yellow-300 text-lg">Referee: Not Set</div>
-                    <div id="previewTossResult" class="text-green-400 text-lg mt-2"></div>
-                </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <!-- Team A Lineup Preview -->
-                    <div class="bg-gradient-to-br from-red-600/30 to-red-800/30 backdrop-blur-lg rounded-3xl p-8 border border-red-500/50">
-                        <h2 class="text-3xl font-bold text-red-400 orbitron mb-6 text-center" id="previewTeamAName">TEAM A</h2>
-                        
-                        <div class="mb-8">
-                            <h3 class="text-xl font-bold text-white mb-4 flex items-center justify-center gap-2">
-                                🌟 MAIN PLAYERS
-                            </h3>
-                            <div id="teamAMainPreview" class="space-y-3">
-                                <!-- Main players will be populated here -->
-                            </div>
-                        </div>
-                        
-                        <div>
-                            <h3 class="text-xl font-bold text-white mb-4 flex items-center justify-center gap-2">
-                                🔄 SUBSTITUTES
-                            </h3>
-                            <div id="teamASubPreview" class="space-y-2">
-                                <!-- Substitute players will be populated here -->
-                            </div>
+            <div id="nextMatchPreview" class="hidden min-h-screen flex items-center justify-center p-8">
+                <div class="text-center">
+                    <div class="animate-pulse mb-8">
+                        <h1 class="text-4xl md:text-6xl font-black text-green-400 orbitron mb-4">🔥 NEXT MATCH</h1>
+                        <div class="text-2xl md:text-4xl text-white mb-6">
+                            <span id="nextTeamA" class="text-red-400"></span>
+                            <span class="text-gray-400 mx-4">VS</span>
+                            <span id="nextTeamB" class="text-blue-400"></span>
                         </div>
                     </div>
-
-                    <!-- Team B Lineup Preview -->
-                    <div class="bg-gradient-to-br from-blue-600/30 to-blue-800/30 backdrop-blur-lg rounded-3xl p-8 border border-blue-500/50">
-                        <h2 class="text-3xl font-bold text-blue-400 orbitron mb-6 text-center" id="previewTeamBName">TEAM B</h2>
-                        
-                        <div class="mb-8">
-                            <h3 class="text-xl font-bold text-white mb-4 flex items-center justify-center gap-2">
-                                🌟 MAIN PLAYERS
-                            </h3>
-                            <div id="teamBMainPreview" class="space-y-3">
-                                <!-- Main players will be populated here -->
-                            </div>
-                        </div>
-                        
-                        <div>
-                            <h3 class="text-xl font-bold text-white mb-4 flex items-center justify-center gap-2">
-                                🔄 SUBSTITUTES
-                            </h3>
-                            <div id="teamBSubPreview" class="space-y-2">
-                                <!-- Substitute players will be populated here -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="text-center mt-8">
-                    <div class="text-2xl text-yellow-400 font-bold animate-pulse">
+                    <div class="text-xl md:text-3xl text-yellow-400 font-bold animate-bounce">
                         WAITING FOR MATCH TO START...
                     </div>
                 </div>
             </div>
 
+            <!-- Enhanced Team Lineups Preview -->
+            <div id="teamLineupsPreview" class="hidden min-h-screen flex flex-col overflow-y-auto p-4">
+                <!-- Header Section -->
+                <div class="text-center py-4 animate-fade-in">
+                    <h1 class="text-3xl md:text-5xl font-black text-white orbitron mb-3 animate-slide-down">📋 TEAM LINEUPS</h1>
+                    <div class="text-xl md:text-3xl text-white mb-4 animate-slide-up">
+                        <span id="previewTeamA" class="text-red-400 font-bold"></span>
+                        <span class="text-gray-400 mx-4 text-2xl md:text-4xl">⚔️</span>
+                        <span id="previewTeamB" class="text-blue-400 font-bold"></span>
+                    </div>
+                </div>
+
+                <!-- Match Info Bar -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 px-4 md:px-8 mb-4">
+                    <!-- Enhanced Referee Display -->
+                    <div class="bg-gradient-to-r from-yellow-500/20 to-orange-500/20 backdrop-blur-lg rounded-xl p-4 border border-yellow-400/50 animate-fade-in-delay">
+                        <div class="text-center">
+                            <div class="text-3xl md:text-4xl mb-2">👨‍⚖️</div>
+                            <div class="text-base md:text-lg font-bold text-yellow-300 mb-1 orbitron">MATCH OFFICIAL</div>
+                            <div id="previewReferee" class="text-sm md:text-base text-white font-medium">Referee: Not Set</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Enhanced Toss Results Display -->
+                    <div id="previewTossResultContainer" class="bg-gradient-to-r from-green-500/20 to-emerald-500/20 backdrop-blur-lg rounded-xl p-4 border border-green-400/50 animate-fade-in-delay-2 hidden">
+                        <div class="text-center">
+                            <div class="text-3xl md:text-4xl mb-2">🪙</div>
+                            <div class="text-base md:text-lg font-bold text-green-300 mb-1 orbitron">TOSS RESULTS</div>
+                            <div id="previewTossResult" class="text-xs md:text-sm text-white font-medium"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team Lineups Grid -->
+                <div class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6 px-4 md:px-8 pb-4 overflow-y-auto">
+                    <!-- Team A Complete Lineup -->
+                    <div class="bg-gradient-to-br from-red-600/30 to-red-800/30 backdrop-blur-lg rounded-2xl p-4 border border-red-500/50 animate-slide-left overflow-hidden flex flex-col">
+                        <div class="text-center mb-4">
+                            <div class="text-3xl md:text-4xl mb-2">🔴</div>
+                            <h2 class="text-xl md:text-2xl font-bold text-red-400 orbitron" id="previewTeamAName">TEAM A</h2>
+                        </div>
+                        
+                        <!-- Main Squad -->
+                        <div class="mb-4 flex-1">
+                            <h3 class="text-base md:text-lg font-bold text-white mb-3 text-center flex items-center justify-center gap-2">
+                                🌟 MAIN SQUAD (7)
+                            </h3>
+                            <div id="teamAMainPreview" class="grid grid-cols-1 gap-2 max-h-64 overflow-y-auto">
+                                <!-- Main players will be populated here -->
+                            </div>
+                        </div>
+                        
+                        <!-- Substitutes -->
+                        <div>
+                            <h3 class="text-sm md:text-base font-bold text-white mb-2 text-center flex items-center justify-center gap-2">
+                                🔄 SUBSTITUTES (5)
+                            </h3>
+                            <div id="teamASubPreview" class="grid grid-cols-1 gap-1 max-h-40 overflow-y-auto">
+                                <!-- Substitute players will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Team B Complete Lineup -->
+                    <div class="bg-gradient-to-br from-blue-600/30 to-blue-800/30 backdrop-blur-lg rounded-2xl p-4 border border-blue-500/50 animate-slide-right overflow-hidden flex flex-col">
+                        <div class="text-center mb-4">
+                            <div class="text-3xl md:text-4xl mb-2">🔵</div>
+                            <h2 class="text-xl md:text-2xl font-bold text-blue-400 orbitron" id="previewTeamBName">TEAM B</h2>
+                        </div>
+                        
+                        <!-- Main Squad -->
+                        <div class="mb-4 flex-1">
+                            <h3 class="text-base md:text-lg font-bold text-white mb-3 text-center flex items-center justify-center gap-2">
+                                🌟 MAIN SQUAD (7)
+                            </h3>
+                            <div id="teamBMainPreview" class="grid grid-cols-1 gap-2 max-h-64 overflow-y-auto">
+                                <!-- Main players will be populated here -->
+                            </div>
+                        </div>
+                        
+                        <!-- Substitutes -->
+                        <div>
+                            <h3 class="text-sm md:text-base font-bold text-white mb-2 text-center flex items-center justify-center gap-2">
+                                🔄 SUBSTITUTES (5)
+                            </h3>
+                            <div id="teamBSubPreview" class="grid grid-cols-1 gap-1 max-h-40 overflow-y-auto">
+                                <!-- Substitute players will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Match Status Footer -->
+                <div class="text-center py-4 animate-pulse-glow">
+                    <div class="bg-gradient-to-r from-purple-600/30 to-pink-600/30 backdrop-blur-lg rounded-xl p-4 border border-purple-400/50">
+                        <div class="text-2xl text-yellow-400 font-bold orbitron mb-2">⏳ MATCH STARTING SOON</div>
+                        <div class="text-base text-white mb-1">Players Ready • Officials in Position • Toss Completed</div>
+                        <div class="text-sm text-gray-300">Get ready for an exciting Kabaddi match!</div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Main Header -->
-            <div id="liveMatchHeader" class="text-center mb-8">
-                <h1 class="text-6xl font-black text-white orbitron mb-4">🏆 KABADDI MATCH</h1>
-                <div class="text-2xl text-gray-300">LIVE SCOREBOARD</div>
-                <div class="text-green-400 font-bold mt-2 flex items-center justify-center gap-2">
+            <div id="liveMatchHeader" class="text-center py-4 px-4">
+                <h1 class="text-3xl md:text-5xl font-black text-white orbitron mb-2">🏆 KABADDI MATCH</h1>
+                <div class="text-lg md:text-xl text-gray-300">LIVE SCOREBOARD</div>
+                <div class="text-green-400 font-bold mt-1 flex items-center justify-center gap-2">
                     <div class="w-3 h-3 bg-green-500 rounded-full live-dot"></div>
                     LIVE
                 </div>
             </div>
             
-            <!-- Live Scoreboard -->
-            <div id="liveScoreboard" class="grid grid-cols-3 gap-8 mb-8">
-                <!-- Team A -->
-                <div class="bg-gradient-to-br from-red-600 to-red-800 rounded-3xl p-12 text-center border-4 border-red-400 pulse-glow">
-                    <h2 id="audienceTeamA" class="text-5xl font-bold text-white mb-6 orbitron">TEAM A</h2>
-                    <div id="audienceScoreA" class="text-[12rem] font-black text-white orbitron leading-none">0</div>
-                </div>
-                
-                <!-- Center Timers -->
-                <div class="space-y-6">
-                    <!-- Match Timer -->
-                    <div class="bg-gradient-to-br from-yellow-600 to-yellow-800 rounded-3xl p-8 text-center border-4 border-yellow-400">
-                        <div class="text-white">
-                            <div class="text-2xl font-bold text-black mb-2">MATCH TIMER</div>
-                            <div id="audienceMatchTimer" class="text-6xl font-black orbitron text-black">20:00</div>
-                            <div id="audienceHalf" class="text-xl text-black font-bold mt-2">FIRST HALF</div>
+            <!-- Enhanced Live Scoreboard -->
+            <div id="liveScoreboard" class="flex-1 flex flex-col p-4">
+                <!-- Match Header with Referee -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div class="bg-gradient-to-r from-yellow-500/20 to-orange-500/20 backdrop-blur-lg rounded-xl p-3 border border-yellow-400/50">
+                        <div class="text-center">
+                            <div class="text-2xl md:text-3xl mb-1">👨‍⚖️</div>
+                            <div class="text-sm md:text-lg font-bold text-yellow-300 orbitron mb-1">MATCH OFFICIAL</div>
+                            <div id="liveReferee" class="text-xs md:text-base text-white font-medium">Referee: Not Set</div>
                         </div>
                     </div>
                     
-                    <!-- Raid Timer -->
-                    <div id="raidTimerContainer" class="bg-gradient-to-br from-green-600 to-green-800 rounded-3xl p-8 text-center border-4 border-green-400 transition-all duration-300">
-                        <div class="text-white">
-                            <div class="text-2xl font-bold text-black mb-2">RAID TIMER</div>
-                            <div id="audienceRaidTimer" class="text-6xl font-black orbitron text-black">30</div>
-                            <div id="audienceRaidTeam" class="text-xl font-bold text-black mt-2 bg-white/20 rounded-lg py-2 px-4">WAITING FOR RAID</div>
+                    <!-- Toss Results Display for Live Match -->
+                    <div id="liveTossResultContainer" class="bg-gradient-to-r from-green-500/20 to-emerald-500/20 backdrop-blur-lg rounded-xl p-3 border border-green-400/50 hidden">
+                        <div class="text-center">
+                            <div class="text-2xl md:text-3xl mb-1">🪙</div>
+                            <div class="text-sm md:text-lg font-bold text-green-300 orbitron mb-1">TOSS WINNER</div>
+                            <div id="liveTossResult" class="text-xs md:text-sm text-white font-medium"></div>
                         </div>
                     </div>
                 </div>
-                
-                <!-- Team B -->
-                <div class="bg-gradient-to-br from-blue-600 to-blue-800 rounded-3xl p-12 text-center border-4 border-blue-400 pulse-glow">
-                    <h2 id="audienceTeamB" class="text-5xl font-bold text-white mb-6 orbitron">TEAM B</h2>
-                    <div id="audienceScoreB" class="text-[12rem] font-black text-white orbitron leading-none">0</div>
+
+                <!-- Main Scoreboard Grid -->
+                <div class="flex-1 grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
+                    <!-- Team A Enhanced -->
+                    <div class="bg-gradient-to-br from-red-600 to-red-800 rounded-2xl p-4 md:p-6 text-center border-4 border-red-400 pulse-glow relative overflow-hidden flex flex-col justify-center">
+                        <!-- Team Logo/Icon -->
+                        <div class="absolute top-2 left-2 text-2xl md:text-3xl opacity-30">🔴</div>
+                        <div class="absolute top-2 right-2 text-lg md:text-xl opacity-50">🏆</div>
+                        
+                        <h2 id="audienceTeamA" class="text-xl md:text-3xl font-bold text-white mb-2 md:mb-4 orbitron">TEAM A</h2>
+                        <div id="audienceScoreA" class="text-5xl md:text-8xl font-black text-white orbitron leading-none mb-2 md:mb-3">0</div>
+                        
+                        <!-- Current Player Indicator -->
+                        <div id="teamACurrentPlayer" class="bg-white/20 backdrop-blur-sm rounded-lg p-2 text-white font-bold text-xs md:text-sm hidden">
+                            <div class="text-xs text-red-200 mb-1">CURRENT RAIDER</div>
+                            <div id="teamAPlayerName">Player Name</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Center Timers Enhanced -->
+                    <div class="flex flex-col gap-4 order-first lg:order-none">
+                        <!-- Match Timer -->
+                        <div class="bg-gradient-to-br from-yellow-600 to-yellow-800 rounded-2xl p-3 md:p-4 text-center border-4 border-yellow-400 relative overflow-hidden flex-1 flex flex-col justify-center">
+                            <div class="absolute top-1 left-1 text-lg md:text-xl opacity-30">⏰</div>
+                            <div class="text-white">
+                                <div class="text-sm md:text-lg font-bold text-black mb-1 orbitron">MATCH TIMER</div>
+                                <div id="audienceMatchTimer" class="text-2xl md:text-4xl font-black orbitron text-black">20:00</div>
+                                <div id="audienceHalf" class="text-xs md:text-sm text-black font-bold mt-1 bg-white/20 rounded-lg py-1 px-2">FIRST HALF</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Raid Timer Enhanced -->
+                        <div id="raidTimerContainer" class="bg-gradient-to-br from-green-600 to-green-800 rounded-2xl p-3 md:p-4 text-center border-4 border-green-400 transition-all duration-300 relative overflow-hidden flex-1 flex flex-col justify-center">
+                            <div class="absolute top-1 left-1 text-lg md:text-xl opacity-30">⚡</div>
+                            <div class="text-white">
+                                <div class="text-sm md:text-lg font-bold text-black mb-1 orbitron">RAID TIMER</div>
+                                <div id="audienceRaidTimer" class="text-2xl md:text-4xl font-black orbitron text-black">30</div>
+                                <div id="audienceRaidTeam" class="text-xs md:text-sm font-bold text-black mt-1 bg-white/20 rounded-lg py-1 px-2">WAITING FOR RAID</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Team B Enhanced -->
+                    <div class="bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl p-4 md:p-6 text-center border-4 border-blue-400 pulse-glow relative overflow-hidden flex flex-col justify-center">
+                        <!-- Team Logo/Icon -->
+                        <div class="absolute top-2 left-2 text-2xl md:text-3xl opacity-30">🔵</div>
+                        <div class="absolute top-2 right-2 text-lg md:text-xl opacity-50">🏆</div>
+                        
+                        <h2 id="audienceTeamB" class="text-xl md:text-3xl font-bold text-white mb-2 md:mb-4 orbitron">TEAM B</h2>
+                        <div id="audienceScoreB" class="text-5xl md:text-8xl font-black text-white orbitron leading-none mb-2 md:mb-3">0</div>
+                        
+                        <!-- Current Player Indicator -->
+                        <div id="teamBCurrentPlayer" class="bg-white/20 backdrop-blur-sm rounded-lg p-2 text-white font-bold text-xs md:text-sm hidden">
+                            <div class="text-xs text-blue-200 mb-1">CURRENT RAIDER</div>
+                            <div id="teamBPlayerName">Player Name</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Match Statistics Bar -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pb-4">
+                    <!-- Team A Stats -->
+                    <div class="bg-gradient-to-r from-red-600/20 to-red-800/20 backdrop-blur-lg rounded-xl p-4 border border-red-500/30">
+                        <h3 class="text-base md:text-lg font-bold text-red-400 orbitron mb-3 text-center" id="audienceTeamAStats">TEAM A STATS</h3>
+                        <div class="grid grid-cols-3 gap-2 md:gap-3 text-center">
+                            <div class="bg-red-500/20 rounded-lg p-2">
+                                <div class="text-lg md:text-xl font-bold text-white" id="teamARaidPoints">0</div>
+                                <div class="text-red-200 text-xs">RAID PTS</div>
+                            </div>
+                            <div class="bg-red-500/20 rounded-lg p-2">
+                                <div class="text-lg md:text-xl font-bold text-white" id="teamATacklePoints">0</div>
+                                <div class="text-red-200 text-xs">TACKLE PTS</div>
+                            </div>
+                            <div class="bg-red-500/20 rounded-lg p-2">
+                                <div class="text-lg md:text-xl font-bold text-white" id="teamAAllOuts">0</div>
+                                <div class="text-red-200 text-xs">ALL-OUTS</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Team B Stats -->
+                    <div class="bg-gradient-to-r from-blue-600/20 to-blue-800/20 backdrop-blur-lg rounded-xl p-4 border border-blue-500/30">
+                        <h3 class="text-base md:text-lg font-bold text-blue-400 orbitron mb-3 text-center" id="audienceTeamBStats">TEAM B STATS</h3>
+                        <div class="grid grid-cols-3 gap-2 md:gap-3 text-center">
+                            <div class="bg-blue-500/20 rounded-lg p-2">
+                                <div class="text-lg md:text-xl font-bold text-white" id="teamBRaidPoints">0</div>
+                                <div class="text-blue-200 text-xs">RAID PTS</div>
+                            </div>
+                            <div class="bg-blue-500/20 rounded-lg p-2">
+                                <div class="text-lg md:text-xl font-bold text-white" id="teamBTacklePoints">0</div>
+                                <div class="text-blue-200 text-xs">TACKLE PTS</div>
+                            </div>
+                            <div class="bg-blue-500/20 rounded-lg p-2">
+                                <div class="text-lg md:text-xl font-bold text-white" id="teamBAllOuts">0</div>
+                                <div class="text-blue-200 text-xs">ALL-OUTS</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             
@@ -994,28 +1348,42 @@
             document.getElementById('previewTeamAName').textContent = gameState.teamA.name;
             document.getElementById('previewTeamBName').textContent = gameState.teamB.name;
             
-            // Update referee
-            const refereeText = gameState.referee ? `Referee: ${gameState.referee}` : 'Referee: Not Set';
+            // Update referee with enhanced display
+            const refereeText = gameState.referee ? `${gameState.referee}` : 'Not Assigned';
             document.getElementById('previewReferee').textContent = refereeText;
             
-            // Update toss result
+            // Update toss result with enhanced display
+            const tossContainer = document.getElementById('previewTossResultContainer');
             if (gameState.toss.completed) {
                 const winnerName = gameState[`team${gameState.toss.winner}`].name;
                 const choiceText = gameState.toss.choice === 'court' ? 'chose their preferred court' : 'chose to raid first';
-                document.getElementById('previewTossResult').textContent = `Toss: ${winnerName} won and ${choiceText}`;
+                document.getElementById('previewTossResult').textContent = `${winnerName} won the toss and ${choiceText}`;
+                tossContainer.classList.remove('hidden');
             } else {
-                document.getElementById('previewTossResult').textContent = '';
+                tossContainer.classList.add('hidden');
             }
             
-            // Update Team A lineup
+            // Update Team A lineup with enhanced styling and avatars
             const teamAMainDiv = document.getElementById('teamAMainPreview');
             teamAMainDiv.innerHTML = '';
             gameState.teamA.mainPlayers.forEach((player, index) => {
                 const playerDiv = document.createElement('div');
-                playerDiv.className = 'bg-red-500/20 border border-red-400 rounded-lg p-3 text-center';
+                playerDiv.className = 'player-card bg-gradient-to-r from-red-500/30 to-red-600/30 border border-red-400 rounded-lg p-2 text-center backdrop-blur-sm';
+                
+                const playerInitial = player.charAt(0).toUpperCase();
+                const captainBadge = index === 0 ? `
+                    <div class="captain-badge text-black text-xs font-bold px-2 py-1 rounded-full mb-2 inline-block">
+                        👑 C
+                    </div>
+                ` : '';
+                
                 playerDiv.innerHTML = `
-                    <div class="text-white font-bold">${index + 1}. ${player}</div>
-                    ${index === 0 ? '<div class="text-red-300 text-sm">(Captain)</div>' : ''}
+                    ${captainBadge}
+                    <div class="player-avatar" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); width: 40px; height: 40px; font-size: 16px;">
+                        ${playerInitial}
+                    </div>
+                    <div class="text-white font-bold text-sm">${index + 1}. ${player}</div>
+                    <div class="text-red-200 text-xs mt-1">Main</div>
                 `;
                 teamAMainDiv.appendChild(playerDiv);
             });
@@ -1024,20 +1392,40 @@
             teamASubDiv.innerHTML = '';
             gameState.teamA.substitutes.forEach((player, index) => {
                 const playerDiv = document.createElement('div');
-                playerDiv.className = 'bg-red-500/10 border border-red-400/50 rounded-lg p-2 text-center';
-                playerDiv.innerHTML = `<div class="text-red-200 text-sm">${player}</div>`;
+                playerDiv.className = 'player-card bg-red-500/10 border border-red-400/50 rounded-lg p-2 text-center backdrop-blur-sm';
+                
+                const playerInitial = player.charAt(0).toUpperCase();
+                playerDiv.innerHTML = `
+                    <div class="player-avatar substitute-avatar mx-auto mb-1" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); width: 30px; height: 30px; font-size: 12px;">
+                        ${playerInitial}
+                    </div>
+                    <div class="text-red-200 font-medium text-xs">${player}</div>
+                    <div class="text-red-300/70 text-xs">Sub</div>
+                `;
                 teamASubDiv.appendChild(playerDiv);
             });
             
-            // Update Team B lineup
+            // Update Team B lineup with enhanced styling and avatars
             const teamBMainDiv = document.getElementById('teamBMainPreview');
             teamBMainDiv.innerHTML = '';
             gameState.teamB.mainPlayers.forEach((player, index) => {
                 const playerDiv = document.createElement('div');
-                playerDiv.className = 'bg-blue-500/20 border border-blue-400 rounded-lg p-3 text-center';
+                playerDiv.className = 'player-card bg-gradient-to-r from-blue-500/30 to-blue-600/30 border border-blue-400 rounded-lg p-2 text-center backdrop-blur-sm';
+                
+                const playerInitial = player.charAt(0).toUpperCase();
+                const captainBadge = index === 0 ? `
+                    <div class="captain-badge text-black text-xs font-bold px-2 py-1 rounded-full mb-2 inline-block">
+                        👑 C
+                    </div>
+                ` : '';
+                
                 playerDiv.innerHTML = `
-                    <div class="text-white font-bold">${index + 1}. ${player}</div>
-                    ${index === 0 ? '<div class="text-blue-300 text-sm">(Captain)</div>' : ''}
+                    ${captainBadge}
+                    <div class="player-avatar" style="background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); width: 40px; height: 40px; font-size: 16px;">
+                        ${playerInitial}
+                    </div>
+                    <div class="text-white font-bold text-sm">${index + 1}. ${player}</div>
+                    <div class="text-blue-200 text-xs mt-1">Main</div>
                 `;
                 teamBMainDiv.appendChild(playerDiv);
             });
@@ -1046,8 +1434,16 @@
             teamBSubDiv.innerHTML = '';
             gameState.teamB.substitutes.forEach((player, index) => {
                 const playerDiv = document.createElement('div');
-                playerDiv.className = 'bg-blue-500/10 border border-blue-400/50 rounded-lg p-2 text-center';
-                playerDiv.innerHTML = `<div class="text-blue-200 text-sm">${player}</div>`;
+                playerDiv.className = 'player-card bg-blue-500/10 border border-blue-400/50 rounded-lg p-2 text-center backdrop-blur-sm';
+                
+                const playerInitial = player.charAt(0).toUpperCase();
+                playerDiv.innerHTML = `
+                    <div class="player-avatar substitute-avatar mx-auto mb-1" style="background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); width: 30px; height: 30px; font-size: 12px;">
+                        ${playerInitial}
+                    </div>
+                    <div class="text-blue-200 font-medium text-xs">${player}</div>
+                    <div class="text-blue-300/70 text-xs">Sub</div>
+                `;
                 teamBSubDiv.appendChild(playerDiv);
             });
         }
@@ -1097,93 +1493,157 @@
             document.getElementById('tossScreen').classList.remove('hidden');
         }
 
-        function flipCoin() {
-            const coinDisplay = document.getElementById('coinDisplay');
-            const flipBtn = document.getElementById('flipCoinBtn');
-            const tossResult = document.getElementById('tossResult');
-            const tossWinner = document.getElementById('tossWinner');
-
-            // Disable button during animation
-            flipBtn.disabled = true;
-            flipBtn.textContent = 'FLIPPING...';
-
-            // Add flip animation
-            coinDisplay.classList.add('coin-flip');
-
-            setTimeout(() => {
-                // Determine winner (50/50 chance)
-                const winner = Math.random() < 0.5 ? 'A' : 'B';
-                const winnerName = gameState[`team${winner}`].name;
-                
-                // Show result
-                tossResult.textContent = winner === 'A' ? 'HEADS' : 'TAILS';
-                tossWinner.textContent = `${winnerName} WINS THE TOSS!`;
-                
-                gameState.toss.winner = winner;
-                
-                // Enable choice buttons for winner
-                enableTossChoiceButtons(winner);
-                
-                // Remove animation
-                coinDisplay.classList.remove('coin-flip');
-                flipBtn.textContent = 'COIN FLIPPED';
-                
-                saveGameState();
-            }, 2000);
-        }
-
-        function enableTossChoiceButtons(winner) {
-            // Disable all buttons first
-            document.getElementById('teamACourtBtn').disabled = true;
-            document.getElementById('teamARaidBtn').disabled = true;
-            document.getElementById('teamBCourtBtn').disabled = true;
-            document.getElementById('teamBRaidBtn').disabled = true;
-
-            // Enable buttons for winner
-            if (winner === 'A') {
-                document.getElementById('teamACourtBtn').disabled = false;
-                document.getElementById('teamARaidBtn').disabled = false;
-                document.getElementById('teamACourtBtn').classList.remove('opacity-50');
-                document.getElementById('teamARaidBtn').classList.remove('opacity-50');
-                document.getElementById('teamBCourtBtn').classList.add('opacity-50');
-                document.getElementById('teamBRaidBtn').classList.add('opacity-50');
+        // Manual Toss Functions
+        function setTossWinner(team) {
+            gameState.toss.winner = team;
+            gameState.toss.choice = null; // Reset choice when winner changes
+            
+            const teamName = gameState[`team${team}`].name;
+            
+            // Update winner display
+            document.getElementById('selectedWinner').textContent = teamName;
+            document.getElementById('tossWinnerDisplay').classList.remove('hidden');
+            
+            // Update button styles
+            const teamABtn = document.getElementById('tossWinnerABtn');
+            const teamBBtn = document.getElementById('tossWinnerBBtn');
+            
+            if (team === 'A') {
+                teamABtn.className = 'px-4 py-3 rounded-lg bg-red-500 border border-red-400 text-white font-bold';
+                teamBBtn.className = 'px-4 py-3 rounded-lg bg-blue-500/30 border border-blue-400 text-blue-300 font-bold hover:bg-blue-500/50 transition-all';
             } else {
-                document.getElementById('teamBCourtBtn').disabled = false;
-                document.getElementById('teamBRaidBtn').disabled = false;
-                document.getElementById('teamBCourtBtn').classList.remove('opacity-50');
-                document.getElementById('teamBRaidBtn').classList.remove('opacity-50');
-                document.getElementById('teamACourtBtn').classList.add('opacity-50');
-                document.getElementById('teamARaidBtn').classList.add('opacity-50');
+                teamBBtn.className = 'px-4 py-3 rounded-lg bg-blue-500 border border-blue-400 text-white font-bold';
+                teamABtn.className = 'px-4 py-3 rounded-lg bg-red-500/30 border border-red-400 text-red-300 font-bold hover:bg-red-500/50 transition-all';
             }
+            
+            // Enable choice buttons
+            document.getElementById('tossChoiceCourtBtn').disabled = false;
+            document.getElementById('tossChoiceRaidBtn').disabled = false;
+            document.getElementById('tossChoiceCourtBtn').classList.remove('opacity-50');
+            document.getElementById('tossChoiceRaidBtn').classList.remove('opacity-50');
+            
+            // Hide choice display and summary
+            document.getElementById('tossChoiceDisplay').classList.add('hidden');
+            document.getElementById('tossSummary').classList.add('hidden');
+            
+            saveGameState();
         }
 
-        function selectTossChoice(team, choice) {
-            if (gameState.toss.winner !== team) {
-                alert('Only the toss winner can make this choice!');
+        function setTossChoice(choice) {
+            if (!gameState.toss.winner) {
+                alert('Please select toss winner first!');
                 return;
             }
-
-            gameState.toss.choice = choice;
-            gameState.toss.completed = true;
-
-            const teamName = gameState[`team${team}`].name;
-            const choiceText = choice === 'court' ? 'chose their preferred court' : 'chose to raid first';
             
-            document.getElementById('tossDecision').classList.remove('hidden');
-            document.getElementById('tossDecisionText').textContent = `${teamName} ${choiceText}`;
-
-            // If they chose to raid first, set the raiding team
-            if (choice === 'raid') {
-                gameState.currentRaidingTeam = team;
+            gameState.toss.choice = choice;
+            
+            // Update choice display
+            const choiceText = choice === 'court' ? 'CHOOSE COURT' : 'RAID FIRST';
+            document.getElementById('selectedChoice').textContent = choiceText;
+            document.getElementById('tossChoiceDisplay').classList.remove('hidden');
+            
+            // Update button styles
+            const courtBtn = document.getElementById('tossChoiceCourtBtn');
+            const raidBtn = document.getElementById('tossChoiceRaidBtn');
+            
+            if (choice === 'court') {
+                courtBtn.className = 'px-4 py-3 rounded-lg bg-purple-500 border border-purple-400 text-white font-bold';
+                raidBtn.className = 'px-4 py-3 rounded-lg bg-orange-500/30 border border-orange-400 text-orange-300 font-bold hover:bg-orange-500/50 transition-all';
+            } else {
+                raidBtn.className = 'px-4 py-3 rounded-lg bg-orange-500 border border-orange-400 text-white font-bold';
+                courtBtn.className = 'px-4 py-3 rounded-lg bg-purple-500/30 border border-purple-400 text-purple-300 font-bold hover:bg-purple-500/50 transition-all';
             }
-
-            // Disable all choice buttons
-            document.getElementById('teamACourtBtn').disabled = true;
-            document.getElementById('teamARaidBtn').disabled = true;
-            document.getElementById('teamBCourtBtn').disabled = true;
-            document.getElementById('teamBRaidBtn').disabled = true;
-
+            
+            // Show summary
+            const winnerName = gameState[`team${gameState.toss.winner}`].name;
+            const choiceDescription = choice === 'court' ? 'chose their preferred court' : 'chose to raid first';
+            document.getElementById('tossSummaryText').textContent = `${winnerName} won the toss and ${choiceDescription}`;
+            document.getElementById('tossSummary').classList.remove('hidden');
+            
             saveGameState();
+        }
+
+        function confirmToss() {
+            if (!gameState.toss.winner || !gameState.toss.choice) {
+                alert('Please complete both toss winner and choice selection!');
+                return;
+            }
+            
+            gameState.toss.completed = true;
+            
+            // If they chose to raid first, set the raiding team
+            if (gameState.toss.choice === 'raid') {
+                gameState.currentRaidingTeam = gameState.toss.winner;
+            }
+            
+            // Show confirmation
+            const winnerName = gameState[`team${gameState.toss.winner}`].name;
+            const choiceText = gameState.toss.choice === 'court' ? 'chose their preferred court' : 'chose to raid first';
+            document.getElementById('tossConfirmedText').textContent = `${winnerName} won the toss and ${choiceText}`;
+            
+            // Hide summary, show confirmed
+            document.getElementById('tossSummary').classList.add('hidden');
+            document.getElementById('tossConfirmed').classList.remove('hidden');
+            
+            // Show animated toss results popup for audience
+            showTossResultsPopup(winnerName, choiceText);
+            
+            saveGameState();
+        }
+
+        function resetToss() {
+            if (confirm('Reset toss results?')) {
+                gameState.toss = { winner: null, choice: null, completed: false };
+                gameState.currentRaidingTeam = null;
+                
+                // Reset all displays
+                document.getElementById('tossWinnerDisplay').classList.add('hidden');
+                document.getElementById('tossChoiceDisplay').classList.add('hidden');
+                document.getElementById('tossSummary').classList.add('hidden');
+                document.getElementById('tossConfirmed').classList.add('hidden');
+                
+                // Reset button styles
+                document.getElementById('tossWinnerABtn').className = 'px-4 py-3 rounded-lg bg-red-500/30 border border-red-400 text-red-300 font-bold hover:bg-red-500/50 transition-all';
+                document.getElementById('tossWinnerBBtn').className = 'px-4 py-3 rounded-lg bg-blue-500/30 border border-blue-400 text-blue-300 font-bold hover:bg-blue-500/50 transition-all';
+                document.getElementById('tossChoiceCourtBtn').className = 'px-4 py-3 rounded-lg bg-purple-500/30 border border-purple-400 text-purple-300 font-bold hover:bg-purple-500/50 transition-all disabled:opacity-50 disabled:cursor-not-allowed';
+                document.getElementById('tossChoiceRaidBtn').className = 'px-4 py-3 rounded-lg bg-orange-500/30 border border-orange-400 text-orange-300 font-bold hover:bg-orange-500/50 transition-all disabled:opacity-50 disabled:cursor-not-allowed';
+                
+                // Disable choice buttons
+                document.getElementById('tossChoiceCourtBtn').disabled = true;
+                document.getElementById('tossChoiceRaidBtn').disabled = true;
+                
+                saveGameState();
+            }
+        }
+
+        function showTossResultsPopup(winnerName, choice) {
+            const popup = document.getElementById('tossResultsPopup');
+            const popupContent = document.getElementById('tossPopupContent');
+            const popupWinner = document.getElementById('tossPopupWinner');
+            const popupChoice = document.getElementById('tossPopupChoice');
+
+            popupWinner.textContent = winnerName;
+            popupChoice.textContent = `${choice.toUpperCase()}`;
+
+            popup.classList.remove('hidden');
+            
+            // Trigger entrance animation
+            setTimeout(() => {
+                popupContent.classList.add('toss-popup-enter');
+                popupContent.style.transform = 'translate(-50%, -50%) scale(1)';
+            }, 100);
+
+            // Play celebration sound
+            playBeep(800, 200);
+            setTimeout(() => playBeep(1000, 200), 200);
+            setTimeout(() => playBeep(1200, 300), 400);
+
+            // Auto-hide after 4 seconds
+            setTimeout(() => {
+                popup.classList.add('hidden');
+                popupContent.classList.remove('toss-popup-enter');
+                popupContent.style.transform = 'translate(-50%, -50%) scale(0)';
+            }, 4000);
         }
 
         function previewTeamLineups() {
@@ -1523,6 +1983,15 @@
             }
         }
 
+        function addRaidPoints(team, points) {
+            gameState[`team${team}`].raid += points;
+            gameState[`team${team}`].score += points;
+            
+            updateAllDisplays();
+            saveGameState();
+            addToHistory(`${gameState[`team${team}`].name}: +${points} Raid Points`, team);
+        }
+
         function newRaid() {
             resetRaidTimer();
             addToHistory('New raid started', 'system');
@@ -1560,8 +2029,10 @@
             gameState[`team${team}`].allout += 2;
             gameState[`team${team}`].score += 2;
             
-            // Show all-out animation in audience view
-            showAllOutAnimation(team);
+            // Show all-out animation only in audience view
+            if (!gameState.isAdmin) {
+                showAllOutAnimation(team);
+            }
             
             updateAllDisplays();
             saveGameState();
@@ -1573,30 +2044,65 @@
             const popup = document.createElement('div');
             popup.className = 'allout-popup';
             
-            const teamColor = team === 'A' ? 'text-red-400' : 'text-blue-400';
+            const teamColor = team === 'A' ? 'from-red-400 to-red-600' : 'from-blue-400 to-blue-600';
             const teamName = gameState[`team${team}`].name;
             
             popup.innerHTML = `
-                <div class="bg-gradient-to-r from-yellow-400 to-orange-500 rounded-3xl p-8 border-4 border-yellow-300 text-center shadow-2xl">
-                    <div class="text-6xl font-black text-black orbitron mb-4">🔥 ALL OUT! 🔥</div>
-                    <div class="text-3xl font-bold text-black mb-2">${teamName}</div>
-                    <div class="text-2xl font-bold text-black">+2 POINTS</div>
+                <div class="bg-gradient-to-br from-yellow-400 via-orange-500 to-red-500 rounded-3xl p-12 border-4 border-yellow-300 text-center shadow-2xl relative overflow-hidden">
+                    <!-- Animated background effects -->
+                    <div class="absolute inset-0 bg-gradient-to-r ${teamColor} opacity-20 animate-pulse"></div>
+                    
+                    <!-- Fire emojis floating animation -->
+                    <div class="absolute top-4 left-4 text-4xl animate-bounce">🔥</div>
+                    <div class="absolute top-4 right-4 text-4xl animate-bounce" style="animation-delay: 0.2s;">🔥</div>
+                    <div class="absolute bottom-4 left-8 text-3xl animate-bounce" style="animation-delay: 0.4s;">💥</div>
+                    <div class="absolute bottom-4 right-8 text-3xl animate-bounce" style="animation-delay: 0.6s;">💥</div>
+                    
+                    <!-- Main content -->
+                    <div class="relative z-10">
+                        <div class="text-8xl font-black text-black orbitron mb-6 animate-pulse">🔥 ALL OUT! 🔥</div>
+                        <div class="text-4xl font-bold text-black mb-4 animate-bounce">${teamName}</div>
+                        <div class="text-3xl font-bold text-black mb-2">GETS +2 POINTS!</div>
+                        <div class="text-lg text-black/80 font-medium">🎉 Spectacular Performance! 🎉</div>
+                    </div>
                 </div>
             `;
             
             document.body.appendChild(popup);
             
-            // Play celebration sound
-            playBeep(800, 200);
-            setTimeout(() => playBeep(1000, 200), 200);
-            setTimeout(() => playBeep(1200, 300), 400);
+            // Enhanced celebration sound sequence
+            playBeep(600, 150);
+            setTimeout(() => playBeep(800, 150), 150);
+            setTimeout(() => playBeep(1000, 150), 300);
+            setTimeout(() => playBeep(1200, 200), 450);
+            setTimeout(() => playBeep(1400, 250), 650);
+            
+            // Screen flash effect
+            const flash = document.createElement('div');
+            flash.className = 'fixed inset-0 bg-white pointer-events-none z-40';
+            flash.style.opacity = '0';
+            document.body.appendChild(flash);
+            
+            // Flash animation
+            setTimeout(() => {
+                flash.style.transition = 'opacity 0.1s';
+                flash.style.opacity = '0.3';
+                setTimeout(() => {
+                    flash.style.opacity = '0';
+                    setTimeout(() => {
+                        if (flash.parentNode) {
+                            flash.parentNode.removeChild(flash);
+                        }
+                    }, 100);
+                }, 100);
+            }, 200);
             
             // Remove popup after animation
             setTimeout(() => {
                 if (popup.parentNode) {
                     popup.parentNode.removeChild(popup);
                 }
-            }, 3000);
+            }, 4000);
         }
 
         function addTechnical(team) {
@@ -1685,7 +2191,7 @@
             if (teamANameAdmin) teamANameAdmin.textContent = gameState.teamA.name;
             if (teamBNameAdmin) teamBNameAdmin.textContent = gameState.teamB.name;
             
-            // Audience view
+            // Audience view - Main scores
             const audienceScoreA = document.getElementById('audienceScoreA');
             const audienceScoreB = document.getElementById('audienceScoreB');
             const audienceTeamA = document.getElementById('audienceTeamA');
@@ -1696,15 +2202,59 @@
             if (audienceTeamA) audienceTeamA.textContent = gameState.teamA.name;
             if (audienceTeamB) audienceTeamB.textContent = gameState.teamB.name;
             
+            // Audience view - Statistics
+            const teamARaidPoints = document.getElementById('teamARaidPoints');
+            const teamATacklePoints = document.getElementById('teamATacklePoints');
+            const teamAAllOuts = document.getElementById('teamAAllOuts');
+            const teamBRaidPoints = document.getElementById('teamBRaidPoints');
+            const teamBTacklePoints = document.getElementById('teamBTacklePoints');
+            const teamBAllOuts = document.getElementById('teamBAllOuts');
+            
+            if (teamARaidPoints) teamARaidPoints.textContent = gameState.teamA.raid;
+            if (teamATacklePoints) teamATacklePoints.textContent = gameState.teamA.tackle;
+            if (teamAAllOuts) teamAAllOuts.textContent = Math.floor(gameState.teamA.allout / 2);
+            if (teamBRaidPoints) teamBRaidPoints.textContent = gameState.teamB.raid;
+            if (teamBTacklePoints) teamBTacklePoints.textContent = gameState.teamB.tackle;
+            if (teamBAllOuts) teamBAllOuts.textContent = Math.floor(gameState.teamB.allout / 2);
+            
+            // Update stats headers
+            const audienceTeamAStats = document.getElementById('audienceTeamAStats');
+            const audienceTeamBStats = document.getElementById('audienceTeamBStats');
+            if (audienceTeamAStats) audienceTeamAStats.textContent = `${gameState.teamA.name} STATS`;
+            if (audienceTeamBStats) audienceTeamBStats.textContent = `${gameState.teamB.name} STATS`;
+            
             // Header displays
             const teamADisplay = document.getElementById('teamADisplay');
             const teamBDisplay = document.getElementById('teamBDisplay');
             const refereeDisplay = document.getElementById('refereeDisplay');
+            const liveReferee = document.getElementById('liveReferee');
+            
             if (teamADisplay) teamADisplay.textContent = gameState.teamA.name;
             if (teamBDisplay) teamBDisplay.textContent = gameState.teamB.name;
             if (refereeDisplay) {
                 refereeDisplay.textContent = gameState.referee ? `Referee: ${gameState.referee}` : 'Referee: Not Set';
             }
+            if (liveReferee) {
+                liveReferee.textContent = gameState.referee ? `${gameState.referee}` : 'Not Assigned';
+            }
+            
+            // Update toss display in live match
+            const liveTossContainer = document.getElementById('liveTossResultContainer');
+            const liveTossResult = document.getElementById('liveTossResult');
+            if (gameState.toss.completed && liveTossContainer && liveTossResult) {
+                const winnerName = gameState[`team${gameState.toss.winner}`].name;
+                const choiceText = gameState.toss.choice === 'court' ? 'chose their preferred court' : 'chose to raid first';
+                liveTossResult.textContent = `${winnerName} won the toss and ${choiceText}`;
+                liveTossContainer.classList.remove('hidden');
+            } else if (liveTossContainer) {
+                liveTossContainer.classList.add('hidden');
+            }
+            
+            // Update team names in toss screen
+            const tossWinnerAText = document.getElementById('tossWinnerAText');
+            const tossWinnerBText = document.getElementById('tossWinnerBText');
+            if (tossWinnerAText) tossWinnerAText.textContent = gameState.teamA.name;
+            if (tossWinnerBText) tossWinnerBText.textContent = gameState.teamB.name;
         }
 
         function updateMatchTimerDisplay() {
@@ -1966,5 +2516,5 @@
         // Initialize the app when page loads
         window.addEventListener('load', initApp);
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97d0f3a3548225e0',t:'MTc1NzUyODU1Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97d12cb511c125e0',t:'MTc1NzUzMDg5My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
